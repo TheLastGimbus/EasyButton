@@ -11,6 +11,18 @@
 #include <Arduino.h>
 #include "EasyButtonBase.h"
 
+/// ################## HACK ################## ///
+#ifndef digitalPinToInterrupt
+#if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny84__)
+#define digitalPinToInterrupt(p) ((p) == 8 ? 0 : NOT_AN_INTERRUPT)
+#elif defined(__AVR_ATtiny25__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtiny85__)
+#define digitalPinToInterrupt(p) ((p) == 2 ? 0 : NOT_AN_INTERRUPT)
+#else
+#error digitalPinToInterrupt() not available for this platform
+#endif
+#endif
+/// ################## HACK ################## ///
+
 #define EASYBUTTON_READ_TYPE_INTERRUPT 0
 #define EASYBUTTON_READ_TYPE_POLL 1
 
